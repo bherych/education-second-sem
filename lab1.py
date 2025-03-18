@@ -1,35 +1,190 @@
-def zigzag(matrix):
-    if not matrix or not matrix[0]:
-        # Введемо кількість рядків матриці
-        matrix_row_num = int(input("Enter the number of rows: "))
+class Matrix:
 
-        # Введемо кількість стовпчиків
-        matrix_column_num = int(input("Enter the number of columns: "))
+    def __init__(self, rows, cols, direction):
+        self.rows = rows
+        self.cols = cols
+        self.matrix = [[0] * cols for _ in range(rows)]
+        self.num = 1
+        self.step = 0
+        self.x, self.y = 0, 0 
+        self.direction = direction
 
-        # Введемо числа матриці
-        matrix_numbers = [int(x) for x in input("Enter numbers for the matrix without commas : ").split()]
+    def mark(self):
+        self.step += 1
+        print(self.step, self.x, self.y)
+        self.matrix[self.y][self.x] = self.step
 
-        # Створимо матрицю
-        matrix = [matrix_numbers[i:i + matrix_column_num] for i in range (0, matrix_row_num * matrix_column_num, matrix_column_num)]
-    else:
-        matrix_row_num, matrix_column_num = len(matrix), len(matrix[0])
+        return
 
-    zig_zag = [[] for _ in range(matrix_row_num+matrix_column_num-1)]
+    def left(self):
+        if self.x == 0:
+            return
+        
+        self.x -= 1
+        self.mark()
 
-    for i in range(matrix_row_num):
-        for j in range(matrix_column_num):
-            sum = i + j
-            if sum % 2 == 0:
-                zig_zag[sum].insert(0, matrix[i][j])
-            else:
-                zig_zag[sum].append(matrix[i][j])
+        return
 
-    # Створимо однорідний список
-    result = [el for sublist in zig_zag for el in sublist]
-    return result
+    def right(self):
+        if self.x == self.cols - 1:
+            return
+        
+        self.x += 1
+        self.mark()
 
-def main():
+        return
+
+
+    def down(self):
+        if self.y == self.rows - 1:
+            return
+        
+        self.y += 1
+        self.mark()
+
+        return
+
+    def up(self):
+        if self.y == 0:
+            return
+        
+        self.y -= 1
+        self.mark()
+
+        return
+
+
+    def up_right(self):
+        while self.x <= self.cols and self.y > 0:
+            self.x += 1
+            self.y -= 1
+            self.mark()
+
+        return
+
+    def up_left(self):
+        while self.x > 0 and self.y > 0:
+            self.x -= 1
+            self.y -= 1
+            self.mark()
+            
+
+        return
+
+
+    def down_left(self):
+        while self.x > 0 and self.y < self.rows - 1:
+            self.x -= 1
+            self.y += 1
+            self.mark()
+        
+        return
+
+    def down_right(self):
+
+        while self.x < self.cols - 1 and self.y < self.rows - 1:
+            self.x += 1
+            self.y += 1
+            self.mark()
+
+        return
     
-    print(zigzag(None))
 
-main()
+    def process(self):
+
+        if self.direction == "left":
+            end_value = (0, self.rows - 1)
+            self.x = self.cols - 1
+        else:
+            end_value = (self.cols - 1, self.rows - 1)
+
+        self.mark()
+
+        while (self.x, self.y) != end_value: # TODO:
+                
+            if self.direction == "right":
+                self.right()
+
+                if self.y == 0:
+                    self.direction = "down_left"
+                else:
+                    self.direction = "up_right"
+
+                continue
+
+            if self.direction == "up_right":
+                self.up_right()
+
+                if self.x == self.cols - 1:
+                    self.direction = "down"
+                else:
+                    self.direction = "right"
+
+                continue
+
+            if self.direction == "down":
+                self.down()
+
+                if self.x == 0:
+                    self.direction = "up_right"
+                else:
+                    self.direction = "down_left"
+
+                continue
+            
+            if self.direction == "down_left":
+                self.down_left()
+
+                if self.y == self.rows -1:
+                    self.direction = "right"
+                else:
+                    self.direction = "down"
+
+                continue
+
+            if self.direction == "left":
+                self.left()
+
+                if self.y == 0:
+                    self.direction = "down_right"
+                else:
+                    self.direction = "up_left"
+                
+                continue
+
+            if self.direction == "down_right":
+                self.down_right()
+
+                if self.y == self.rows - 1:
+                    self.direction = "left"
+                else: 
+                    self.direction = "down_reverse"
+
+                continue
+            
+            if self.direction == "up_left":
+                self.up_left()
+
+                if self.x == 0:
+                    self.direction = "down_reverse"
+                else:
+                    self.direction = "left"
+
+                continue
+
+            if self.direction == "down_reverse":
+                self.down()
+
+                if self.x == 0:
+                    self.direction = "down_right"
+                else:
+                    self.direction = "up_left"
+
+                continue
+
+
+
+        result = [el for sublist in self.matrix for el in sublist]
+        return result
+
+    
