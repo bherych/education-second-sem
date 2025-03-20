@@ -40,15 +40,10 @@ def merge_sort(matrix):
 def counting_sort(matrix):
 
     max_value = max(row[1] for row in matrix)
-    print("max value")
-    print(max_value)
     
     count = [[] for _ in range(max_value + 1)]
-    print("count")
-    print(count)
 
     for row in matrix:
-        print(count)
         count[row[1]].append(row)
         
 
