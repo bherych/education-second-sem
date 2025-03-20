@@ -37,30 +37,36 @@ def merge_sort(matrix):
 
     return merge(left_list, right_list)
     
-def counting_sort(arr):
+def counting_sort(matrix):
 
-    max_value = max(arr)
-    count = [0] * (max_value + 1)
+    max_value = max(row[1] for row in matrix)
+    print("max value")
+    print(max_value)
+    
+    count = [[] for _ in range(max_value + 1)]
+    print("count")
+    print(count)
 
-   
-    for num in arr:
-        count[num] += 1
+    for row in matrix:
+        print(count)
+        count[row[1]].append(row)
+        
 
-    sorted_arr = []
-    for num, freq in enumerate(count): 
-        sorted_arr.extend([num] * freq)
+    sorted_matrix = []
+    for i in count:
+        sorted_matrix.extend(i)
 
-    return sorted_arr
+    return sorted_matrix
     
 def max_hamsters(food_per_day, hamsters):
     
-    hamsters = merge_sort(hamsters)
+    hamsters = counting_sort(hamsters)
             
     left, right = 0, len(hamsters)
     
 
     def is_feeding_possible(n):
-        consumption = counting_sort([h[0] + h[1] * (n-1) for h in hamsters[:n]])
+        consumption = [h[0] + h[1] * (n-1) for h in hamsters[:n]]
         # Замінив і на (n - 1), оскільки нам потрібно множити жадібність на кількість сусідів-хом'яків
         needed_food = sum(consumption)
         return needed_food <= food_per_day
