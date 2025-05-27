@@ -9,6 +9,7 @@ class Node:
 class PriorityQueueAVL:
     def __init__(self):
         self.root = None
+        print("Created the queue.")
 
     def _height(self, node):
         return node.height if node else 0
@@ -90,19 +91,3 @@ class PriorityQueueAVL:
             if node.values:
                 return node, value
             return node.right, value
-
-def main():
-    pq = PriorityQueueAVL()
-    pq.insert(3, "key A")
-    pq.insert(1, "key B")
-    pq.insert(2, "key C")
-    pq.insert(1, "key D")
-    pq.print_queue()
-
-    print("Pop:", pq.pop())
-
-    pq.print_queue()
-
-    pq.pop()
-
-main()
