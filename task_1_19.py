@@ -46,6 +46,6 @@ def generate_partitions(n):
             j -= 1
 
 def main():
-    generate_partitions(3)
+    generate_partitions(4)
 
 main()
