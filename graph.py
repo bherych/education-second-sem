@@ -19,14 +19,15 @@ def build_graph(matrix):
     return graph
 
 def bfs_shortest_path(graph, start_nodes, target_col):
-    from collections import deque
-
     visited = set()
-    queue = [(r, c, 0) for r, c in start_nodes if (r, c) in graph]
-    for r, c, _ in queue:
-        visited.add((r, c))
-
+    queue = []
     head = 0
+
+    for r, c in start_nodes:
+        if (r, c) in graph:
+            queue.append((r, c, 0)) 
+            visited.add((r, c))
+
     while head < len(queue):
         x, y, dist = queue[head]
         head += 1
