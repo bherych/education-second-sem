@@ -25,35 +25,39 @@ def bfs_shortest_path(graph, start_nodes, target_col):
 
     for r, c in start_nodes:
         if (r, c) in graph:
-            queue.append((r, c, 0)) 
+            queue.append((r, c, 0, [(r, c)])) 
             visited.add((r, c))
 
     while head < len(queue):
-        x, y, dist = queue[head]
+        x, y, dist, path = queue[head]
         head += 1
 
         if y == target_col:
-            return dist
+            return dist, path
 
         for nx, ny in graph.get((x, y), []):
             if (nx, ny) not in visited:
                 visited.add((nx, ny))
-                queue.append((nx, ny, dist + 1))
+                queue.append((nx, ny, dist + 1, path + [(nx, ny)]))
 
-    return -1
+    return -1, []
 
 def solve():
     matrix = read_matrix("input.txt")
     if not matrix or not matrix[0]:
         result = -1
+        path = []
     else:
         rows, cols = len(matrix), len(matrix[0])
         graph = build_graph(matrix)
         start_nodes = [(r, 0) for r in range(rows) if matrix[r][0] == 1]
-        result = bfs_shortest_path(graph, start_nodes, cols - 1)
+        result, path = bfs_shortest_path(graph, start_nodes, cols - 1)
 
     with open("output.txt", "w") as f:
         f.write(str(result) + "\n")
+        if path:
+            for coord in path:
+                f.write(f"{coord[0]},{coord[1]}\n")
 
 if __name__ == "__main__":
     solve()
