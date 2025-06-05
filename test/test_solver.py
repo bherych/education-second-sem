@@ -1,6 +1,7 @@
 import unittest
 import os
-from src import solve_govern
+
+from src.solver import solve_govern
 
 class TestGovern(unittest.TestCase):
     def setUp(self):
