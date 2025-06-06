@@ -37,3 +37,24 @@ def find_string(haystack, needle):
                 window_hash += mod
 
     return result
+
+def find_todo_lines(file_path):
+    todo_lines = []
+    file = open(file_path, 'r', encoding='utf-8')
+    line_number = 1
+    while True:
+        line = file.readline()
+        if not line:
+            break
+        if find_string(line, "TODO"):
+            todo_lines.append(line_number)
+        line_number += 1
+    file.close()
+    return todo_lines
+
+def main():
+    result = find_todo_lines("src\\example_code.py")
+
+    print(result)
+
+main()
