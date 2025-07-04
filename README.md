@@ -1,5 +1,5 @@
-# education-second-sem
-Education projects for the second semester
+Герич Богдан Миколайович
+ІР-14
 
 # Рівень 2
 ## Варіант 1
